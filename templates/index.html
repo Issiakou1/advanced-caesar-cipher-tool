@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Caesar Cipher</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+            background-color: #f8f9fa;
+            font-family: 'Bricolage Grotesque', sans-serif;
+        }
+        .tab-pane {
+            padding: 1.5rem;
+            background-color: white;
+            border-left: 1px solid #dee2e6;
+            border-right: 1px solid #dee2e6;
+            border-bottom: 1px solid #dee2e6;
+            border-radius: 0 0 0.25rem 0.25rem;
+        }
+        .result-container {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: #f8f9fa;
+            border-radius: 0.25rem;
+            min-height: 100px;
+        }
+        .chart-container {
+            height: 300px;
+            margin-top: 1.5rem;
+        }
+        .brute-force-results {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        h1, h5, .nav-link {
+            font-family: 'Bricolage Grotesque', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center mb-4">Advanced Caesar Cipher Tool</h1>
+        
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="encrypt-tab" data-bs-toggle="tab" data-bs-target="#encrypt-tab-pane" type="button" role="tab">Encrypt</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="decrypt-tab" data-bs-toggle="tab" data-bs-target="#decrypt-tab-pane" type="button" role="tab">Decrypt</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="brute-force-tab" data-bs-toggle="tab" data-bs-target="#brute-force-tab-pane" type="button" role="tab">Brute Force</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="analyze-tab" data-bs-toggle="tab" data-bs-target="#analyze-tab-pane" type="button" role="tab">Frequency Analysis</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="auto-decrypt-tab" data-bs-toggle="tab" data-bs-target="#auto-decrypt-tab-pane" type="button" role="tab">Auto Decrypt</button>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="myTabContent">
+            <!-- Encrypt Tab -->
+            <div class="tab-pane fade show active" id="encrypt-tab-pane" role="tabpanel" tabindex="0">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="encrypt-message" class="form-label">Message to Encrypt</label>
+                        <textarea class="form-control" id="encrypt-message" rows="5" placeholder="Enter message to encrypt"></textarea>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="mb-3">
+                            <label for="encrypt-shift" class="form-label">Shift Value</label>
+                            <input type="number" class="form-control" id="encrypt-shift" value="3" min="0" max="25">
+                        </div>
+                        <div class="mb-3">
+                            <label for="encrypt-key" class="form-label">Advanced Key (optional)</label>
+                            <input type="text" class="form-control" id="encrypt-key" placeholder="Enter key for advanced encryption">
+                        </div>
+                        <button class="btn btn-primary" id="encrypt-btn">Encrypt</button>
+                    </div>
+                </div>
+                <div class="result-container">
+                    <h5>Encrypted Result:</h5>
+                    <div id="encrypt-result"></div>
+                </div>
+            </div>
+
+            <!-- Decrypt Tab -->
+            <div class="tab-pane fade" id="decrypt-tab-pane" role="tabpanel" tabindex="0">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="decrypt-message" class="form-label">Message to Decrypt</label>
+                        <textarea class="form-control" id="decrypt-message" rows="5" placeholder="Enter message to decrypt"></textarea>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="mb-3">
+                            <label for="decrypt-shift" class="form-label">Shift Value</label>
+                            <input type="number" class="form-control" id="decrypt-shift" value="3" min="0" max="25">
+                        </div>
+                        <div class="mb-3">
+                            <label for="decrypt-key" class="form-label">Advanced Key (optional)</label>
+                            <input type="text" class="form-control" id="decrypt-key" placeholder="Enter key for advanced decryption">
+                        </div>
+                        <button class="btn btn-primary" id="decrypt-btn">Decrypt</button>
+                    </div>
+                </div>
+                <div class="result-container">
+                    <h5>Decrypted Result:</h5>
+                    <div id="decrypt-result"></div>
+                </div>
+            </div>
+
+            <!-- Brute Force Tab -->
+            <div class="tab-pane fade" id="brute-force-tab-pane" role="tabpanel" tabindex="0">
+                <div class="mb-3">
+                    <label for="brute-force-message" class="form-label">Message to Decrypt</label>
+                    <textarea class="form-control" id="brute-force-message" rows="5" placeholder="Enter message to decrypt"></textarea>
+                </div>
+                <button class="btn btn-primary" id="brute-force-btn">Try All Shifts</button>
+                <div class="result-container">
+                    <h5>Brute Force Results:</h5>
+                    <div class="brute-force-results" id="brute-force-results"></div>
+                </div>
+            </div>
+
+            <!-- Frequency Analysis Tab -->
+            <div class="tab-pane fade" id="analyze-tab-pane" role="tabpanel" tabindex="0">
+                <div class="mb-3">
+                    <label for="analyze-message" class="form-label">Message to Analyze</label>
+                    <textarea class="form-control" id="analyze-message" rows="5" placeholder="Enter text for frequency analysis"></textarea>
+                </div>
+                <button class="btn btn-primary" id="analyze-btn">Analyze</button>
+                <div class="chart-container">
+                    <canvas id="frequency-chart"></canvas>
+                </div>
+                <div class="table-responsive mt-3">
+                    <table class="table table-striped" id="frequency-table">
+                        <thead>
+                            <tr>
+                                <th>Character</th>
+                                <th>Frequency</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Auto Decrypt Tab -->
+            <div class="tab-pane fade" id="auto-decrypt-tab-pane" role="tabpanel" tabindex="0">
+                <div class="mb-3">
+                    <label for="auto-decrypt-message" class="form-label">Message to Decrypt</label>
+                    <textarea class="form-control" id="auto-decrypt-message" rows="5" placeholder="Enter encrypted message"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="auto-decrypt-top" class="form-label">Number of Top Results</label>
+                    <input type="number" class="form-control" id="auto-decrypt-top" value="5" min="1" max="10">
+                </div>
+                <button class="btn btn-primary" id="auto-decrypt-btn">Auto Decrypt</button>
+                <div class="result-container">
+                    <h5>Auto Decrypt Results:</h5>
+                    <div class="brute-force-results" id="auto-decrypt-results"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Encrypt function
+            document.getElementById('encrypt-btn').addEventListener('click', function() {
+                const message = document.getElementById('encrypt-message').value;
+                const shift = parseInt(document.getElementById('encrypt-shift').value);
+                const key = document.getElementById('encrypt-key').value;
+                
+                if (!message) {
+                    alert('Please enter a message to encrypt');
+                    return;
+                }
+                
+                fetch('/api/encrypt', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message, shift, key: key || null })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        document.getElementById('encrypt-result').textContent = `Error: ${data.error}`;
+                    } else {
+                        document.getElementById('encrypt-result').textContent = data.result;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('encrypt-result').textContent = 'An error occurred during encryption.';
+                });
+            });
+            
+            // Decrypt function
+            document.getElementById('decrypt-btn').addEventListener('click', function() {
+                const message = document.getElementById('decrypt-message').value;
+                const shift = parseInt(document.getElementById('decrypt-shift').value);
+                const key = document.getElementById('decrypt-key').value;
+                
+                if (!message) {
+                    alert('Please enter a message to decrypt');
+                    return;
+                }
+                
+                fetch('/api/decrypt', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message, shift, key: key || null })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        document.getElementById('decrypt-result').textContent = `Error: ${data.error}`;
+                    } else {
+                        document.getElementById('decrypt-result').textContent = data.result;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('decrypt-result').textContent = 'An error occurred during decryption.';
+                });
+            });
+            
+            // Brute force function
+            document.getElementById('brute-force-btn').addEventListener('click', function() {
+                const message = document.getElementById('brute-force-message').value;
+                
+                if (!message) {
+                    alert('Please enter a message to decrypt');
+                    return;
+                }
+                
+                fetch('/api/brute-force', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        document.getElementById('brute-force-results').innerHTML = `<p>Error: ${data.error}</p>`;
+                    } else {
+                        let resultsHtml = '';
+                        data.results.forEach(result => {
+                            resultsHtml += `<div class="mb-2"><strong>Shift ${result.shift}:</strong> ${result.text}</div>`;
+                        });
+                        document.getElementById('brute-force-results').innerHTML = resultsHtml;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('brute-force-results').innerHTML = '<p>An error occurred during brute force decryption.</p>';
+                });
+            });
+            
+            // Frequency analysis function
+            let frequencyChart = null;
+            document.getElementById('analyze-btn').addEventListener('click', function() {
+                const message = document.getElementById('analyze-message').value;
+                
+                if (!message) {
+                    alert('Please enter a message to analyze');
+                    return;
+                }
+                
+                fetch('/api/analyze', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        document.getElementById('frequency-table').innerHTML = `<p>Error: ${data.error}</p>`;
+                    } else {
+                        // Update table
+                        const tableBody = document.querySelector('#frequency-table tbody');
+                        tableBody.innerHTML = '';
+                        
+                        data.frequencies.forEach(item => {
+                            const row = tableBody.insertRow();
+                            const cellChar = row.insertCell(0);
+                            const cellFreq = row.insertCell(1);
+                            
+                            cellChar.textContent = item.char;
+                            cellFreq.textContent = item.frequency.toFixed(4);
+                        });
+                        
+                        // Update chart
+                        const ctx = document.getElementById('frequency-chart').getContext('2d');
+                        
+                        if (frequencyChart) {
+                            frequencyChart.destroy();
+                        }
+                        
+                        frequencyChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: data.frequencies.map(item => item.char),
+                                datasets: [{
+                                    label: 'Character Frequency',
+                                    data: data.frequencies.map(item => item.frequency),
+                                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                    borderWidth: 1
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                scales: {
+                                    y: {
+                                        beginAtZero: true,
+                                        title: {
+                                            display: true,
+                                            text: 'Frequency'
+                                        }
+                                    },
+                                    x: {
+                                        title: {
+                                            display: true,
+                                            text: 'Character'
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('frequency-table').innerHTML = '<p>An error occurred during frequency analysis.</p>';
+                });
+            });
+            
+            // Auto decrypt function
+            document.getElementById('auto-decrypt-btn').addEventListener('click', function() {
+                const message = document.getElementById('auto-decrypt-message').value;
+                const topN = parseInt(document.getElementById('auto-decrypt-top').value);
+                
+                if (!message) {
+                    alert('Please enter a message to decrypt');
+                    return;
+                }
+                
+                fetch('/api/auto-decrypt', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ message, top_n: topN })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        document.getElementById('auto-decrypt-results').innerHTML = `<p>Error: ${data.error}</p>`;
+                    } else if (data.results.length === 0) {
+                        document.getElementById('auto-decrypt-results').innerHTML = '<p>Not enough data for frequency analysis.</p>';
+                    } else {
+                        let resultsHtml = '';
+                        data.results.forEach(result => {
+                            resultsHtml += `<div class="mb-2"><strong>Shift ${result.shift}:</strong> ${result.text}</div>`;
+                        });
+                        document.getElementById('auto-decrypt-results').innerHTML = resultsHtml;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    document.getElementById('auto-decrypt-results').innerHTML = '<p>An error occurred during auto decryption.</p>';
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
