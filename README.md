@@ -15,7 +15,7 @@ A cybersecurity project that implements an advanced version of the Caesar Cipher
 - **Command-Line Interface** - Perform operations via terminal commands
 - **Web Interface** - User-friendly web application with graphical displays
 
-## Installation 📦
+## Installation 
 
 1. Clone this repository:
    ```
