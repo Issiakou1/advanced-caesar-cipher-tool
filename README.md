@@ -1,8 +1,11 @@
-# Advanced Caesar Cipher Encryption/Decryption
+# Advanced Caesar Cipher Encryption/Decryption 🔐
+
+<img width="1012" alt="Screenshot 2025-04-18 at 04 13 20" src="https://github.com/user-attachments/assets/8f6d2fee-7900-47cd-b377-28186af1dafa" />
+
 
 A cybersecurity project that implements an advanced version of the Caesar Cipher encryption algorithm with additional features for cryptanalysis and security.
 
-## Features
+## Features ✨
 
 - **Basic Caesar Cipher** - Traditional implementation with customizable shift values
 - **Advanced Caesar Cipher** - Enhanced version using key-based shifting for increased security
@@ -12,7 +15,7 @@ A cybersecurity project that implements an advanced version of the Caesar Cipher
 - **Command-Line Interface** - Perform operations via terminal commands
 - **Web Interface** - User-friendly web application with graphical displays
 
-## Installation
+## Installation 📦
 
 1. Clone this repository:
    ```
@@ -27,7 +30,7 @@ A cybersecurity project that implements an advanced version of the Caesar Cipher
 
 ## Detailed Usage Guide
 
-### Basic Encryption and Decryption
+### Initial Encryption and Decryption ⚙️
 
 #### Command Line
 
@@ -49,7 +52,7 @@ python caesar_cli.py decrypt "Olssv, Dvysk!" -s 7
 # Output: Hello, World!
 ```
 
-#### Web Interface
+#### Web Interface 👩🏻‍💻
 
 1. Navigate to the "Encrypt" tab
 2. Enter "Hello, World!" in the "Message to Encrypt" field
@@ -57,11 +60,11 @@ python caesar_cli.py decrypt "Olssv, Dvysk!" -s 7
 4. Click "Encrypt" button
 5. Result: "Mjqqt, Btwqi!"
 
-### Advanced Key-Based Encryption
+### Advanced Key-Based Encryption ✨
 
 The advanced mode uses both a shift value and a key for additional security, creating a variable shift pattern based on the key characters.
 
-#### Command Line
+#### Command Line 🔐
 
 ```bash
 # Encrypt using advanced key-based method
@@ -73,7 +76,7 @@ python caesar_cli.py decrypt "Wphsg, Ogioe!" -s 5 -k "SECRET"
 # Output: Hello, World!
 ```
 
-#### Web Interface
+#### Web Interface 🕸️
 
 1. Navigate to the "Encrypt" tab
 2. Enter "Hello, World!" in the "Message to Encrypt" field
@@ -82,11 +85,11 @@ python caesar_cli.py decrypt "Wphsg, Ogioe!" -s 5 -k "SECRET"
 5. Click "Encrypt" button
 6. Result: "Wphsg, Ogioe!"
 
-### Brute Force Decryption
+### Brute Force Decryption ⊩
 
 When you don't know the shift value, brute force tries all possible shifts (0-25).
 
-#### Command Line
+#### Command Line 👩🏻‍💻
 
 ```bash
 # Brute force an encrypted message
@@ -105,7 +108,7 @@ Shift | Result
     ...
 ```
 
-#### Web Interface
+#### Web Interface 🕸️
 
 1. Navigate to the "Brute Force" tab
 2. Enter "Khoor, Zruog!" in the message field
